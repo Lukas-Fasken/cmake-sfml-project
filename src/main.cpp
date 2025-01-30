@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <stdio.h>
 
 int main()
 {
@@ -6,7 +7,8 @@ int main()
     window.setFramerateLimit(144);
 
     sf::Font font("C:/Windows/Fonts/arial.ttf");
-
+    std::string printed_string;
+    sf::Text printed_text(font);
     while (window.isOpen())
     {
         while (const std::optional event = window.pollEvent())
@@ -20,6 +22,11 @@ int main()
                 if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
                 {
                     window.close();
+                }
+            }
+            else if (const auto* TextEntered = event->getIf<sf::Event::TextEntered>()){
+                if (TextEntered->unicode < 128){
+                    printed_string=printed_string+TextEntered;
                 }
             }
         }
